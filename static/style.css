@@ -201,18 +201,31 @@ body { font-family: 'Segoe UI', Arial, sans-serif; min-height: 100vh; background
 
 .question-num { font-size: 12px; color: #7aacc8; }
 
+/* Bob image wrapper — positions the hand drop zone */
+.bob-img-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
 .drop-zone {
-  width: 140px; height: 110px; border: 2px dashed #8ecae6;
-  border-radius: 12px; background: rgba(142,202,230,0.1);
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
+  position: absolute;
+  right: -14px;
+  top: 54%;
+  transform: translateY(-50%);
+  width: 78px;
+  height: 58px;
+  border: 2px dashed #8ecae6;
+  border-radius: 40px;
+  background: rgba(255,255,255,0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   transition: background 0.15s, border-color 0.15s;
   cursor: pointer;
 }
-.drop-zone.drag-over {
-  background: rgba(142,202,230,0.3); border-color: #3a7bb5;
-}
-.drop-hint { font-size: 12px; color: #8ecae6; }
+.drop-zone.drag-over { background: rgba(142,202,230,0.45); border-color: #3a7bb5; }
+.drop-hint { font-size: 10px; color: #7aacc8; }
 
 /* Camera options panel */
 .cameras-panel {
@@ -221,18 +234,6 @@ body { font-family: 'Segoe UI', Arial, sans-serif; min-height: 100vh; background
   background: rgba(180,218,240,0.4);
   border-radius: 16px; align-content: start;
 }
-
-.drop-zone {
-  grid-column: 1 / -1;
-  width: 100%; height: 76px;
-  border: 2px dashed #8ecae6; border-radius: 10px;
-  background: rgba(255,255,255,0.4);
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center; gap: 2px;
-  transition: background 0.15s, border-color 0.15s;
-}
-.drop-zone.drag-over { background: rgba(142,202,230,0.4); border-color: #3a7bb5; }
-.drop-hint { font-size: 11px; color: #7aacc8; }
 
 .cam-option {
   display: flex; flex-direction: column; align-items: center; gap: 4px;
