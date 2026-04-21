@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz — Camera Movement</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="quiz-page">
+  <svg class="blob-bg" viewBox="0 0 1440 900" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+    <path d="M-100,200 C100,50 300,350 500,200 C700,50 900,300 1100,150 C1300,0 1500,250 1600,100 L1600,0 L-100,0 Z" fill="#b8ddf5" opacity="0.6"/>
+    <path d="M-100,750 C150,600 400,850 650,700 C900,550 1150,800 1400,650 L1600,680 L1600,900 L-100,900 Z" fill="#b8ddf5" opacity="0.6"/>
+  </svg>
+
+  <h2 class="quiz-title">Help Bob film, drag the camera to him!</h2>
+
+  <div class="quiz-layout">
+    <!-- BOB left -->
+    <div class="bob-area">
+      {% if wrong_count == 0 %}
+        <img src="{{ url_for('static', filename='bob-happy.png') }}" class="bob-img" alt="Bob">
+      {% elif wrong_count == 1 %}
+        <img src="{{ url_for('static', filename='bob-smirk.png') }}" class="bob-img" alt="Bob">
+      {% elif wrong_count == 2 %}
+        <img src="{{ url_for('static', filename='bob-neutral.png') }}" class="bob-img" alt="Bob">
+      {% else %}
+        <img src="{{ url_for('static', filename='bob-angry.png') }}" class="bob-img" alt="Bob">
+      {% endif %}
+      <div class="speech-bubble">Please pass me the correct camera for this scene!</div>
+    </div>
+
+    <!-- CENTER: TV frame with VIDEO inside -->
+    <div class="tv-area quiz-tv">
+      <div class="tv-frame-wrapper">
+        <!-- video BEHIND the frame -->
+        <div class="tv-video-slot">
+          <video id="quiz-video" autoplay muted playsinline
+            src="{{ url_for('static', filename=question.video) }}"></video>
+        </div>
+        <!-- frame ON TOP -->
+        <img src="{{ url_for('static', filename='tv-frame.png') }}"
+             class="tv-frame-img" alt="TV Frame">
+        <div class="quiz-q-num">Q{{ current }}/{{ total }}</div>
+      </div>
+    </div>
+
+    <!-- RIGHT: cameras to drag -->
+    <div class="cameras-panel">
+      <div class="drop-zone" id="drop-zone">
+        <span class="drop-hint">← drag here</span>
+      </div>
+      {% for cam in question.cameras %}
+        <div class="cam-option" draggable="true"
+             data-label="{{ cam.label }}" id="cam-{{ loop.index }}">
+          <img src="{{ url_for('static', filename=cam.file) }}" alt="{{ cam.label }}">
+          <span class="cam-label">{{ cam.label }}</span>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <form method="POST" action="{{ url_for('quiz', question_id=current + 1) }}" id="answer-form">
+    <input type="hidden" name="answer" id="answer-input">
+  </form>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <script>
+    const qvid = document.getElementById('quiz-video');
+    if (qvid) qvid.addEventListener('ended', () => qvid.pause());
+
+    const cams = document.querySelectorAll('.cam-option');
+    const dropZone = document.getElementById('drop-zone');
+    const answerInput = document.getElementById('answer-input');
+    const form = document.getElementById('answer-form');
+    let dragged = null;
+
+    cams.forEach(cam => {
+      cam.addEventListener('dragstart', e => {
+        dragged = cam;
+        const img = cam.querySelector('img');
+        if (img) e.dataTransfer.setDragImage(img, img.width/2, img.height/2);
+        cam.style.opacity = '0.4';
+      });
+      cam.addEventListener('dragend', () => cam.style.opacity = '1');
+      cam.addEventListener('click', () => submitAnswer(cam));
+    });
+
+    dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+    dropZone.addEventListener('drop', e => {
+      e.preventDefault();
+      dropZone.classList.remove('drag-over');
+      if (dragged) submitAnswer(dragged);
+    });
+
+    function submitAnswer(cam) {
+      answerInput.value = cam.dataset.label;
+      dropZone.innerHTML = '';
+      const img = cam.querySelector('img').cloneNode();
+      img.style.cssText = 'height:60px;width:auto;mix-blend-mode:multiply;';
+      dropZone.appendChild(img);
+      setTimeout(() => form.submit(), 700);
+    }
+  </script>
+</body>
+</html>

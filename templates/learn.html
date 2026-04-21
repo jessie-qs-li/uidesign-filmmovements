@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ lesson.title }} — Camera Movement</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    .learn-layout { grid-template-columns: 160px 1fr 220px !important; gap: 12px !important; }
+
+    /* Default TV content (camera PNG + text) */
+    .tv-default {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: space-evenly;
+      padding: 10px 14px; background: #f5f9fd; z-index: 2;
+      box-sizing: border-box; overflow: hidden;
+    }
+    .tv-default img {
+      height: 42%; width: auto; max-width: 60%;
+      mix-blend-mode: multiply;
+      filter: drop-shadow(0 2px 8px rgba(58,110,180,0.1));
+      flex-shrink: 0;
+    }
+    .tv-default-desc {
+      background: rgba(255,255,255,0.92); border-radius: 10px;
+      padding: 8px 12px; font-size: 12px; color: #2c5a8f;
+      text-align: center; line-height: 1.5;
+      width: 100%; box-sizing: border-box;
+    }
+
+    /* Webcam / canvas / playback layers */
+    #webcam-feed {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      object-fit: cover; display: none; z-index: 2;
+    }
+    #effect-canvas {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      display: none; z-index: 2;
+    }
+    #playback-video {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      object-fit: cover; display: none; z-index: 2;
+    }
+    .rec-indicator {
+      position: absolute; top: 8px; left: 12px; z-index: 6;
+      background: #e05555; color: #fff; border-radius: 20px;
+      padding: 3px 10px; font-size: 11px; font-weight: 700;
+      display: none; animation: blink 1s infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    /* Right panel */
+    .cam-try-panel {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 10px; padding-top: 10px;
+    }
+    .cam-try-title { font-size: 12px; font-weight: 600; color: #2c5a8f; text-align: center; }
+    .cam-try-single {
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.85); border-radius: 14px;
+      padding: 16px 20px; cursor: pointer; width: 100%;
+      border: 2px solid #8ecae6; transition: transform 0.12s, border-color 0.15s;
+    }
+    .cam-try-single:hover { transform: scale(1.04); border-color: #3a7bb5; }
+    .cam-try-single.active-mode { border-color: #3a7bb5; background: #dcedf8; }
+    .cam-try-single img { height: 70px; width: auto; mix-blend-mode: multiply; }
+    .cam-try-single span { font-size: 12px; font-weight: 600; color: #2c5a8f; }
+
+    .webcam-controls {
+      display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100%;
+    }
+    .mode-label {
+      font-size: 11px; color: #3a7bb5; text-align: center;
+      background: rgba(255,255,255,0.7); border-radius: 8px;
+      padding: 5px 10px; width: 100%;
+    }
+    .record-row { display: flex; gap: 8px; justify-content: center; width: 100%; }
+    .rec-btn {
+      border: none; border-radius: 10px; padding: 9px 16px;
+      font-size: 12px; font-weight: 600; cursor: pointer;
+      font-family: inherit; flex: 1;
+    }
+    .rec-btn.start { background: #e05555; color: #fff; }
+    .rec-btn.stop  { background: #3a7bb5; color: #fff; }
+    .rec-btn.play  { background: #5ba4d4; color: #fff; width: 100%; }
+    .rec-btn.dl    { background: #3a7bb5; color: #fff; width: 100%; text-decoration: none; display: block; text-align: center; border-radius: 10px; padding: 9px 16px; font-size: 12px; font-weight: 600; }
+    .rec-btn.back  { background: #7aacc8; color: #fff; width: 100%; }
+    .rec-btn:disabled { opacity: 0.4; cursor: default; }
+  </style>
+</head>
+<body class="learn-page">
+  <svg class="blob-bg" viewBox="0 0 1440 900" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+    <path d="M-100,200 C100,50 300,350 500,200 C700,50 900,300 1100,150 C1300,0 1500,250 1600,100 L1600,0 L-100,0 Z" fill="#b8ddf5" opacity="0.6"/>
+    <path d="M-100,750 C150,600 400,850 650,700 C900,550 1150,800 1400,650 L1600,680 L1600,900 L-100,900 Z" fill="#b8ddf5" opacity="0.6"/>
+  </svg>
+
+  <div class="learn-layout">
+    <!-- LEFT SIDEBAR -->
+    <div class="sidebar">
+      {% for l in lessons %}
+        <a href="{{ url_for('learn', lesson_id=l.id) }}"
+           class="tab-btn {% if l.id == current %}active{% endif %}">{{ l.title }}</a>
+      {% endfor %}
+      <a href="{{ url_for('quiz_start') }}" class="tab-btn done-btn">Done</a>
+    </div>
+
+    <!-- CENTER TV -->
+    <div class="tv-area">
+      <div class="tv-frame-wrapper">
+        <div class="tv-video-slot">
+          <!-- DEFAULT: camera PNG + description -->
+          <div class="tv-default" id="tv-default">
+            <img src="{{ url_for('static', filename=lesson.camera_img) }}" alt="{{ lesson.title }}">
+            <div class="tv-default-desc">{{ lesson.description }}</div>
+          </div>
+          <!-- WEBCAM layers -->
+          <video id="webcam-feed" autoplay muted playsinline></video>
+          <canvas id="effect-canvas"></canvas>
+          <video id="playback-video" playsinline loop></video>
+          <div class="rec-indicator" id="rec-indicator">● REC</div>
+        </div>
+        <img src="{{ url_for('static', filename='tv-frame.png') }}" class="tv-frame-img" alt="TV Frame">
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="cam-try-panel">
+      <div class="cam-try-title">Try it yourself!</div>
+      <div class="cam-try-single" id="cam-trigger" onclick="selectMode()">
+        <img src="{{ url_for('static', filename=lesson.camera_img) }}" alt="{{ lesson.title }}">
+        <span>{{ lesson.title }}</span>
+      </div>
+
+      <div class="webcam-controls" id="webcam-controls" style="display:none;">
+        <div class="mode-label">Mode: {{ lesson.title }}</div>
+        <div class="record-row">
+          <button class="rec-btn start" id="btn-record" onclick="startRecording()">⏺ Record</button>
+          <button class="rec-btn stop"  id="btn-stop"   onclick="stopRecording()" disabled>⏹ Stop</button>
+        </div>
+        <button class="rec-btn play" id="btn-play" onclick="doPlayback()" disabled>▶ Play back</button>
+        <a id="btn-download" class="rec-btn dl" style="display:none;" download="my-{{ lesson.title | lower }}-shot.webm">⬇ Download video</a>
+        <button class="rec-btn back" onclick="resetToDefault()">↩ Back</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const LESSON_MODE = "{{ lesson.title | lower | replace(' ','') }}";
+
+    const tvDefault  = document.getElementById('tv-default');
+    const webcamEl   = document.getElementById('webcam-feed');
+    const canvasEl   = document.getElementById('effect-canvas');
+    const ctx        = canvasEl.getContext('2d');
+    const playbackEl = document.getElementById('playback-video');
+    const recInd     = document.getElementById('rec-indicator');
+    const dlBtn      = document.getElementById('btn-download');
+
+    let stream = null, mediaRecorder = null, chunks = [], effectLoop = null, t = 0;
+    let blobUrl = null;
+
+    async function selectMode() {
+      document.getElementById('cam-trigger').classList.add('active-mode');
+      document.getElementById('webcam-controls').style.display = 'flex';
+      document.getElementById('btn-play').disabled = true;
+      document.getElementById('btn-record').disabled = false;
+      document.getElementById('btn-stop').disabled = true;
+      dlBtn.style.display = 'none';
+      recInd.style.display = 'none';
+      playbackEl.style.display = 'none';
+      tvDefault.style.display = 'none';
+      await startWebcam();
+    }
+
+    async function startWebcam() {
+      if (stream) stream.getTracks().forEach(t => t.stop());
+      stopEffectLoop();
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 720 } },
+          audio: false
+        });
+        webcamEl.srcObject = stream;
+
+        if (LESSON_MODE === 'static') {
+          webcamEl.style.display = 'block';
+          canvasEl.style.display = 'none';
+        } else {
+          webcamEl.style.display = 'none';
+          canvasEl.style.display = 'block';
+          webcamEl.onloadedmetadata = () => {
+            webcamEl.play();
+            canvasEl.width  = webcamEl.videoWidth  || 640;
+            canvasEl.height = webcamEl.videoHeight || 480;
+            t = 0;
+            startEffectLoop();
+          };
+        }
+      } catch(e) {
+        tvDefault.style.display = 'flex';
+        tvDefault.querySelector('.tv-default-desc').textContent = '⚠️ Camera access denied — allow camera in browser settings.';
+      }
+    }
+
+    function startEffectLoop() {
+      stopEffectLoop();
+      function draw() {
+        if (!stream || webcamEl.readyState < 2) { effectLoop = requestAnimationFrame(draw); return; }
+        const W = canvasEl.width, H = canvasEl.height;
+        ctx.clearRect(0, 0, W, H);
+        t += 0.025;
+
+        if (LESSON_MODE === 'handheld') {
+          // Tilt frame left/right + jitter
+          const angle = Math.sin(t * 3) * 0.045;
+          const jx = (Math.random() - 0.5) * 6;
+          const jy = (Math.random() - 0.5) * 3;
+          ctx.save();
+          ctx.translate(W / 2 + jx, H / 2 + jy);
+          ctx.rotate(angle);
+          ctx.drawImage(webcamEl, -W / 2, -H / 2, W, H);
+          ctx.restore();
+
+        } else if (LESSON_MODE === 'tracking') {
+          // Pan left/right — you slide in and out of view
+          const maxShift = W * 0.28;
+          const shift = Math.sin(t * 0.7) * maxShift;
+          const drawW = W * 1.35, drawH = H * 1.35;
+          const baseX = -(drawW - W) / 2;
+          const baseY = -(drawH - H) / 2;
+          ctx.drawImage(webcamEl, baseX + shift, baseY, drawW, drawH);
+
+        } else if (LESSON_MODE === 'dollyzoom') {
+          // Background zooms, center subject stays same size
+          const zoomCycle = 1 + 0.4 * Math.abs(Math.sin(t * 0.5));
+          const zW = W * zoomCycle, zH = H * zoomCycle;
+          ctx.drawImage(webcamEl, (W - zW) / 2, (H - zH) / 2, zW, zH);
+          // Re-stamp center crop at original size so face stays put
+          const subW = W * 0.45, subH = H * 0.72;
+          const srcX = (webcamEl.videoWidth  - subW) / 2;
+          const srcY = (webcamEl.videoHeight - subH) / 2;
+          const dstX = (W - subW) / 2, dstY = (H - subH) / 2;
+          ctx.drawImage(webcamEl, srcX, srcY, subW, subH, dstX, dstY, subW, subH);
+        }
+
+        effectLoop = requestAnimationFrame(draw);
+      }
+      draw();
+    }
+
+    function stopEffectLoop() {
+      if (effectLoop) { cancelAnimationFrame(effectLoop); effectLoop = null; }
+    }
+
+    function startRecording() {
+      chunks = [];
+      if (blobUrl) { URL.revokeObjectURL(blobUrl); blobUrl = null; }
+      dlBtn.style.display = 'none';
+
+      const recStream = LESSON_MODE === 'static' ? stream : canvasEl.captureStream(30);
+      mediaRecorder = new MediaRecorder(recStream, { mimeType: 'video/webm' });
+      mediaRecorder.ondataavailable = e => { if (e.data.size) chunks.push(e.data); };
+      mediaRecorder.onstop = () => {
+        const blob = new Blob(chunks, { type: 'video/webm' });
+        blobUrl = URL.createObjectURL(blob);
+        playbackEl.src = blobUrl;
+        // set download link
+        dlBtn.href = blobUrl;
+        document.getElementById('btn-play').disabled = false;
+      };
+      mediaRecorder.start();
+      recInd.style.display = 'block';
+      document.getElementById('btn-record').disabled = true;
+      document.getElementById('btn-stop').disabled = false;
+    }
+
+    function stopRecording() {
+      if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+      recInd.style.display = 'none';
+      document.getElementById('btn-stop').disabled = true;
+    }
+
+    function doPlayback() {
+      stopEffectLoop();
+      if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
+      webcamEl.style.display = 'none';
+      canvasEl.style.display = 'none';
+      playbackEl.style.display = 'block';
+      playbackEl.play();
+      dlBtn.style.display = 'block';
+    }
+
+    function resetToDefault() {
+      stopEffectLoop();
+      if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
+      webcamEl.style.display = 'none';
+      canvasEl.style.display = 'none';
+      playbackEl.style.display = 'none';
+      playbackEl.src = '';
+      dlBtn.style.display = 'none';
+      recInd.style.display = 'none';
+      tvDefault.style.display = 'flex';
+      document.getElementById('webcam-controls').style.display = 'none';
+      document.getElementById('cam-trigger').classList.remove('active-mode');
+      document.getElementById('btn-play').disabled = true;
+    }
+  </script>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

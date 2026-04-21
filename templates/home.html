@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Camera Movement</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="home-page">
+  <!-- wavy blue blobs background -->
+  <svg class="blob-bg" viewBox="0 0 1440 900" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+    <path d="M-100,200 C100,50 300,350 500,200 C700,50 900,300 1100,150 C1300,0 1500,250 1600,100 L1600,0 L-100,0 Z" fill="#b8ddf5" opacity="0.7"/>
+    <path d="M-100,750 C150,600 400,850 650,700 C900,550 1150,800 1400,650 C1500,600 1550,700 1600,680 L1600,900 L-100,900 Z" fill="#b8ddf5" opacity="0.7"/>
+    <path d="M900,300 C1000,200 1200,350 1350,250 C1450,180 1500,280 1600,220 L1600,0 L800,0 Z" fill="#cde9f7" opacity="0.5"/>
+  </svg>
+
+  <div class="home-wrapper">
+    <h1 class="home-title">Camera Movement</h1>
+
+    <div class="home-row">
+      <form method="POST" action="{{ url_for('start') }}">
+        <button type="submit" class="home-btn">Practice</button>
+      </form>
+
+      <div class="hero-center">
+        <img src="{{ url_for('static', filename='laura.png') }}" alt="Character" class="hero-img">
+      </div>
+
+      <a href="{{ url_for('quiz_start') }}" class="home-btn">Quiz</a>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

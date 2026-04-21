@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Results — Camera Movement</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="results-page">
+  <svg class="blob-bg" viewBox="0 0 1440 900" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+    <path d="M-100,200 C100,50 300,350 500,200 C700,50 900,300 1100,150 C1300,0 1500,250 1600,100 L1600,0 L-100,0 Z" fill="#b8ddf5" opacity="0.6"/>
+    <path d="M-100,750 C150,600 400,850 650,700 C900,550 1150,800 1400,650 L1600,680 L1600,900 L-100,900 Z" fill="#b8ddf5" opacity="0.6"/>
+  </svg>
+
+  <div class="results-layout">
+    <div class="result-character">
+      <img src="{{ url_for('static', filename=bob_img) }}" alt="Character" class="result-char-img">
+    </div>
+
+    <div class="result-content">
+      <h1 class="result-msg">{{ message }}</h1>
+
+      <div class="score-cloud">
+        <div class="score-cloud-shape">
+          <span class="score-text">{{ score }}/{{ total }}</span>
+        </div>
+      </div>
+
+      <div class="result-review">
+        {% for q in quiz_questions %}
+          {% set ans = user_data.quiz_answers.get(q.id) %}
+          {% set ok = ans == q.correct %}
+          <div class="review-row {% if ok %}ok{% else %}bad{% endif %}">
+            <span class="ri">{% if ok %}✓{% else %}✗{% endif %}</span>
+            <span><strong>{{ q.correct }}</strong>{% if not ok %} — you chose {{ ans or '?' }}{% endif %}</span>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="result-btns">
+        <a href="{{ url_for('quiz_start') }}" class="home-btn secondary-btn">Try Again</a>
+        <a href="{{ url_for('home') }}" class="home-btn">Done</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
