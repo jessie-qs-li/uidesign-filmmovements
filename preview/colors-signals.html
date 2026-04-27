@@ -1,0 +1,27 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="_card.css">
+<style>
+  .swatches { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .sw { display: flex; flex-direction: column; gap: 8px; }
+  .chip { height: 100px; border-radius: 12px; border: 1px solid var(--vl-border-1); display: flex; align-items: flex-end; padding: 10px; }
+  .chip span { font-family: var(--vl-font-body); font-size: 11px; font-weight:700; letter-spacing: 0.12em; text-transform: uppercase; }
+  .meta { display: flex; flex-direction: column; gap: 2px; }
+  .meta .name { font-family: var(--vl-font-display); font-style: italic; font-size: 14px; color: var(--vl-fg-1); }
+  .meta .hex { font-family: var(--vl-font-mono); font-size: 11px; color: var(--vl-fg-3); letter-spacing: 0.04em; }
+  .meta .role { font-family: var(--vl-font-body); font-size: 11px; color: var(--vl-fg-2); }
+</style></head><body>
+<div class="swatches">
+  <div class="sw">
+    <div class="chip" style="background:#E42217"><span style="color:#F2F2EE">ACCENT</span></div>
+    <div class="meta"><span class="name">Lava Red</span><span class="hex">#E42217</span><span class="role">CTAs · selected · error</span></div>
+  </div>
+  <div class="sw">
+    <div class="chip" style="background:#A9ED3D"><span style="color:#081910">CORRECT</span></div>
+    <div class="meta"><span class="name">Lemon Lime</span><span class="hex">#A9ED3D</span><span class="role">Correct · progress · score</span></div>
+  </div>
+  <div class="sw">
+    <div class="chip" style="background:#34CD3F"><span style="color:#081910">ACTIVE</span></div>
+    <div class="meta"><span class="name">Fresh Green</span><span class="hex">#34CD3F</span><span class="role">Icon fills · active nav</span></div>
+  </div>
+</div>
+</body></html>

@@ -1,0 +1,18 @@
+/* Shared shell for preview cards — keeps them tidy at 700×N */
+@import url('../colors_and_type.css');
+
+html, body { margin: 0; padding: 0; }
+body {
+  width: 700px;
+  background: var(--vl-bg-1);
+  color: var(--vl-fg-1);
+  padding: 20px 24px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+body[data-vl-theme="sketch"] { background: var(--vl-bg-1); }
+
+.row { display: flex; gap: 12px; align-items: stretch; }
+.col { display: flex; flex-direction: column; gap: 12px; }
+.grid { display: grid; gap: 12px; }
+.mono { font-family: var(--vl-font-mono); }

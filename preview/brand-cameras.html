@@ -1,0 +1,17 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="_card.css">
+<style>
+  body { padding: 18px 24px; }
+  .row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .item { display: flex; flex-direction: column; align-items: center; gap: 6px; background: var(--vl-bg-2); border: 1px solid var(--vl-border-1); border-radius: 12px; padding: 14px 8px 10px; }
+  .item img { height: 110px; width: auto; filter: brightness(2.2) contrast(0.8); }
+  .item .name { font-family: var(--vl-font-display); font-style: italic; font-size: 13px; color: var(--vl-fg-1); }
+  .item .file { font-family: var(--vl-font-mono); font-size: 9px; color: var(--vl-fg-3); }
+</style></head><body>
+<div class="row">
+  <div class="item"><img src="../assets/cam-tripod.png"><span class="name">Static</span><span class="file">cam-tripod.png</span></div>
+  <div class="item"><img src="../assets/cam-handheld.png"><span class="name">Handheld</span><span class="file">cam-handheld.png</span></div>
+  <div class="item"><img src="../assets/cam-tracking.png"><span class="name">Tracking</span><span class="file">cam-tracking.png</span></div>
+  <div class="item"><img src="../assets/cam-dolly-zoom.png"><span class="name">Dolly Zoom</span><span class="file">cam-dolly-zoom.png</span></div>
+</div>
+</body></html>
