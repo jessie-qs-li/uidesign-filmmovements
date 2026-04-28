@@ -18,7 +18,7 @@ function HomeScreen({ onStart, onQuiz }) {
       </div>
       <div className="hero">
         <span className="hero-tag">Lesson 00 · Welcome</span>
-        <img src="/assets/laura.png" alt="Laura, your guide" />
+        <img src="/assets/laura.png" alt="Laura, your guide" style={{width: '1020px', height: 'auto'}} />
         <div className="hero-quote">"You already feel it.<br/>I'll just give you the words."</div>
       </div>
     </main>
