@@ -60,9 +60,9 @@ button { font-family: inherit; }
   display: flex; align-items: flex-end; justify-content: center; overflow: hidden;
   box-shadow: var(--vl-shadow-lg);
 }
-.home .hero img { width: 78%; height: auto; filter: drop-shadow(0 18px 40px rgba(0,0,0,0.55)); }
+.home .hero img { width: 90%; height: auto; filter: drop-shadow(0 18px 40px rgba(0,0,0,0.55)); }
 .home .hero .hero-tag {
-  position: absolute; top: 24px; left: 24px;
+  position: absolute; top: 60px; left: 24px;
   font-family: var(--vl-font-mono); font-size: 11px; letter-spacing: 0.12em;
   color: var(--vl-fg-3); text-transform: uppercase;
 }
