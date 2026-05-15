@@ -261,6 +261,26 @@ function LearningScreen({ lessonId, onPick, onAdvance, completed }) {
 
         <div className="definition"><strong>{lesson.title}.</strong> {lesson.def}</div>
 
+        {lesson.realExamples && (
+          <div className="real-examples">
+            <span className="eyebrow">Real Examples</span>
+            <div className="examples-grid">
+              {lesson.realExamples.map((ex, i) => (
+                <div key={i} className="example-embed">
+                  <iframe
+                    src={ex.embedUrl}
+                    title={ex.caption}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                  <p className="example-caption">{ex.caption}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         <div className="stage-footer">
           <Btn kind="ghost" onClick={() => { resetCam(); onPick(Math.max(1, lesson.id - 1)); }}>← Previous</Btn>
           <Btn kind="primary" onClick={() => { resetCam(); onAdvance(); }}>
