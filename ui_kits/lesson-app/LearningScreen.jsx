@@ -2,10 +2,25 @@
 const { useState: useLState, useRef, useEffect } = React;
 
 const MODE_BY_TITLE = {
-  'Static':     'static',
-  'Handheld':   'handheld',
-  'Tracking':   'tracking',
-  'Dolly Zoom': 'dollyzoom',
+  'Static':      'static',
+  'Handheld':    'handheld',
+  'Tracking':    'tracking',
+  'Dolly Zoom':  'dollyzoom',
+  'Tilt':        'tilt',
+  'Dutch Angle': 'dutch',
+  'Whip Pan':    'whippan',
+  'Zoom':        'zoom',
+};
+
+const INSTRUCTIONS = {
+  static:    'Hold your laptop completely still.',
+  handheld:  'Gently wobble your laptop as you film.',
+  tracking:  'Slowly pan your laptop left and right.',
+  dollyzoom: 'Zoom in while stepping back — watch the Vertigo effect!',
+  tilt:      'Slowly tilt your laptop up then down.',
+  dutch:     'Tilt your laptop diagonally to one side and hold it.',
+  whippan:   'Quickly swipe your laptop left or right — fast!',
+  zoom:      'Lean in toward your screen slowly, then lean back.',
 };
 
 function LearningScreen({ lessonId, onPick, onAdvance, completed }) {
@@ -13,7 +28,6 @@ function LearningScreen({ lessonId, onPick, onAdvance, completed }) {
   const idx = LESSONS.findIndex(l => l.id === lesson.id);
   const pct = ((idx + 1) / LESSONS.length) * 100;
 
-  // webcam state
   const [camActive, setCamActive] = useLState(false);
   const [recording, setRecording] = useLState(false);
   const [hasRecording, setHasRecording] = useLState(false);
@@ -32,7 +46,6 @@ function LearningScreen({ lessonId, onPick, onAdvance, completed }) {
 
   const mode = MODE_BY_TITLE[lesson.title] || 'static';
 
-  // stop everything when lesson changes
   useEffect(() => {
     stopAll();
     return () => stopAll();
@@ -103,7 +116,6 @@ function LearningScreen({ lessonId, onPick, onAdvance, completed }) {
       const t = tRef.current;
 
       if (mode === 'handheld') {
-        // tilt + jitter
         const angle = Math.sin(t * 3) * 0.045;
         const jx = (Math.random() - 0.5) * 6;
         const jy = (Math.random() - 0.5) * 3;
@@ -114,21 +126,69 @@ function LearningScreen({ lessonId, onPick, onAdvance, completed }) {
         ctx.restore();
 
       } else if (mode === 'tracking') {
-        // pan left/right — subject slides in and out of frame
         const shift = Math.sin(t * 0.7) * W * 0.28;
         const drawW = W * 1.35, drawH = H * 1.35;
         ctx.drawImage(vid, -(drawW - W) / 2 + shift, -(drawH - H) / 2, drawW, drawH);
 
       } else if (mode === 'dollyzoom') {
-        // background zooms, face stays same size
         const scale = 1 + 0.4 * Math.abs(Math.sin(t * 0.5));
         ctx.drawImage(vid, (W - W * scale) / 2, (H - H * scale) / 2, W * scale, H * scale);
-        // re-stamp center crop at original size
         const subW = W * 0.45, subH = H * 0.72;
         const srcX = (vid.videoWidth  - subW) / 2;
         const srcY = (vid.videoHeight - subH) / 2;
         ctx.drawImage(vid, srcX, srcY, subW, subH,
                           (W - subW) / 2, (H - subH) / 2, subW, subH);
+
+      } else if (mode === 'tilt') {
+        // slow vertical pan — slides up and down
+        const shiftY = Math.sin(t * 0.6) * H * 0.25;
+        const drawW = W * 1.1, drawH = H * 1.4;
+        ctx.drawImage(vid, -(drawW - W) / 2, -(drawH - H) / 2 + shiftY, drawW, drawH);
+
+      } else if (mode === 'dutch') {
+        // fixed diagonal tilt — frame stays rotated
+        const angle = 0.18; // ~10 degrees
+        ctx.save();
+        ctx.translate(W / 2, H / 2);
+        ctx.rotate(angle);
+        ctx.drawImage(vid, -W * 0.6, -H * 0.6, W * 1.2, H * 1.2);
+        ctx.restore();
+
+      } else if (mode === 'whippan') {
+        // whip pan: light blue screen → blur → your face revealed
+        const cycleDur = 3;
+        const cycleT = (t * 0.4) % cycleDur;
+        const progress = cycleT / cycleDur; // 0..1
+
+        if (progress < 0.4) {
+          // light blue screen (the "previous scene")
+          ctx.fillStyle = '#cfe8f7';
+          ctx.fillRect(0, 0, W, H);
+        } else if (progress < 0.6) {
+          // whip blur — streaking left to reveal face
+          const blurAmt = (progress - 0.4) / 0.2; // 0..1
+          // start from blue, fade into face
+          ctx.fillStyle = '#cfe8f7';
+          ctx.fillRect(0, 0, W, H);
+          // draw face coming in from the right with blur trails
+          const steps = 10;
+          for (let i = steps; i >= 1; i--) {
+            ctx.globalAlpha = (blurAmt * 0.6 * i) / steps;
+            const offset = W * (1 - blurAmt) * (i / steps);
+            ctx.drawImage(vid, -offset, 0, W, H);
+          }
+          ctx.globalAlpha = 1;
+        } else {
+          // fully settled on your face
+          ctx.drawImage(vid, 0, 0, W, H);
+        }
+
+
+      } else if (mode === 'zoom') {
+        // smooth zoom in and out — like a lens zoom
+        const zoomScale = 1 + 0.5 * ((Math.sin(t * 0.5) + 1) / 2);
+        const zW = W * zoomScale, zH = H * zoomScale;
+        ctx.drawImage(vid, (W - zW) / 2, (H - zH) / 2, zW, zH);
       }
 
       rafRef.current = requestAnimationFrame(draw);
@@ -139,11 +199,9 @@ function LearningScreen({ lessonId, onPick, onAdvance, completed }) {
   function startRecording() {
     chunksRef.current = [];
     if (blobUrlRef.current) { URL.revokeObjectURL(blobUrlRef.current); blobUrlRef.current = null; }
-
     const recStream = mode === 'static'
       ? streamRef.current
       : canvasRef.current.captureStream(30);
-
     const recorder = new MediaRecorder(recStream, { mimeType: 'video/webm' });
     recorder.ondataavailable = e => { if (e.data.size) chunksRef.current.push(e.data); };
     recorder.onstop = () => {
@@ -182,20 +240,13 @@ function LearningScreen({ lessonId, onPick, onAdvance, completed }) {
     playbackRef.current.style.display = 'none';
   }
 
-  const instructions = {
-    static:    'Hold your laptop completely still.',
-    handheld:  'Gently wobble your laptop as you film.',
-    tracking:  'Slowly pan your laptop left and right.',
-    dollyzoom: 'Zoom in while stepping back — watch the Vertigo effect!',
-  };
-
   return (
     <main className="learn">
       <NavRail current={lesson.id} onPick={id => { resetCam(); onPick(id); }} completed={completed} />
 
       <section className="stage">
         <div className="lesson-meta">
-          <Eyebrow>Lesson {String(lesson.id).padStart(2,'0')} of 04 · Camera Movement</Eyebrow>
+          <Eyebrow>Lesson {String(lesson.id).padStart(2,'0')} of {String(LESSONS.length).padStart(2,'0')} · Camera Movement</Eyebrow>
           <span className="eyebrow" style={{color: 'var(--vl-highlight)'}}>{Math.round(pct)}% complete</span>
         </div>
         <ProgressBar value={pct} />
@@ -218,9 +269,7 @@ function LearningScreen({ lessonId, onPick, onAdvance, completed }) {
         </div>
       </section>
 
-      {/* RIGHT SIDE PANEL */}
       <aside className="side-panel">
-        {/* Camera icon card */}
         <div className="side-card">
           <h4>The Tool</h4>
           <div className="cam-thumb">
@@ -229,11 +278,9 @@ function LearningScreen({ lessonId, onPick, onAdvance, completed }) {
           <div className="label">{lesson.title}</div>
         </div>
 
-        {/* Try it yourself — webcam card */}
         <div className="side-card">
           <h4>Try it yourself</h4>
 
-          {/* hidden video + canvas layers */}
           <video ref={webcamRef} autoPlay muted playsInline
             style={{display:'none', width:'100%', borderRadius:8, background:'#000'}} />
           <canvas ref={canvasRef}
@@ -248,7 +295,7 @@ function LearningScreen({ lessonId, onPick, onAdvance, completed }) {
           {!camActive && !playingBack && (
             <>
               <p style={{margin:'0 0 10px', fontSize:13, lineHeight:1.5, color:'var(--vl-fg-2)'}}>
-                {instructions[mode]}
+                {INSTRUCTIONS[mode]}
               </p>
               <Btn kind="ghost" onClick={openCamera}>Open camera</Btn>
             </>
@@ -272,7 +319,7 @@ function LearningScreen({ lessonId, onPick, onAdvance, completed }) {
             <div style={{display:'flex', flexDirection:'column', gap:8, marginTop:8}}>
               {blobUrlRef.current && (
                 <a href={blobUrlRef.current}
-                   download={`my-${lesson.title.toLowerCase()}-shot.webm`}
+                   download={`my-${lesson.title.toLowerCase().replace(' ','-')}-shot.webm`}
                    className="btn btn-ghost"
                    style={{textAlign:'center'}}>
                   ⬇ Download

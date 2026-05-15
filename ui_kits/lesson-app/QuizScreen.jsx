@@ -3,11 +3,29 @@ const { useState: useQState } = React;
 
 const QUIZ_QUESTIONS = [
   { id: 1, scene: 'A character delivers an emotional monologue. The focus stays entirely on her face.',
-    correct: 'Static', video: '/assets/videos/static-video.mp4' },
+    correct: 'Static', video: '/assets/videos/static-video.mp4',
+    choices: ['Static', 'Handheld', 'Tracking', 'Zoom'] },
   { id: 2, scene: 'A character sprints through a crowded market. You should feel the chaos.',
-    correct: 'Handheld', video: '/assets/videos/handheld-video.mp4' },
+    correct: 'Handheld', video: '/assets/videos/handheld-video.mp4',
+    choices: ['Static', 'Handheld', 'Tracking', 'Dutch Angle'] },
   { id: 3, scene: 'A character walks down a city street. The camera follows her smoothly.',
-    correct: 'Tracking', video: '/assets/videos/tracking-video.mp4' },
+    correct: 'Tracking', video: '/assets/videos/tracking-video.mp4',
+    choices: ['Handheld', 'Tracking', 'Tilt', 'Zoom'] },
+  { id: 4, scene: 'The director wants the background to warp and shrink while the actor stays the same size.',
+    correct: 'Dolly Zoom', video: '/assets/videos/dollyzoom-video.mp4',
+    choices: ['Zoom', 'Dolly Zoom', 'Whip Pan', 'Tracking'] },
+  { id: 5, scene: 'The camera slowly reveals a towering skyscraper from the ground all the way up to the top.',
+    correct: 'Tilt', video: '/assets/videos/tilt-video.mp4',
+    choices: ['Static', 'Tilt', 'Dutch Angle', 'Zoom'] },
+  { id: 6, scene: 'A villain enters the room. The world feels unstable — nothing looks quite right.',
+    correct: 'Dutch Angle', video: '/assets/videos/dutch-video.mp4',
+    choices: ['Handheld', 'Static', 'Dutch Angle', 'Tilt'] },
+  { id: 7, scene: 'The scene cuts instantly to a new location using a blurry, ultra-fast camera sweep.',
+    correct: 'Whip Pan', video: '/assets/videos/whippan-video.mp4',
+    choices: ['Tracking', 'Zoom', 'Whip Pan', 'Dolly Zoom'] },
+  { id: 8, scene: 'The director wants to make the subject appear closer without physically moving the camera.',
+    correct: 'Zoom', video: '/assets/videos/zoom-video.mp4',
+    choices: ['Dolly Zoom', 'Zoom', 'Tilt', 'Static'] },
 ];
 
 const BOB_BY_WRONG = ['/assets/bob-happy.png','/assets/bob-smirk.png','/assets/bob-neutral.png','/assets/bob-angry.png'];
@@ -55,7 +73,6 @@ function QuizScreen({ onFinish }) {
 
   return (
     <main className="quiz">
-
       <div className="quiz-header">
         <div>
           <Eyebrow>Quiz · Question {qIdx + 1} of {QUIZ_QUESTIONS.length}</Eyebrow>
@@ -67,7 +84,6 @@ function QuizScreen({ onFinish }) {
       </div>
 
       <div className="quiz-main">
-
         {/* Col 1 — Bob + drop zone */}
         <div className="bob-col">
           <div className="bob-hand-row">
@@ -92,23 +108,24 @@ function QuizScreen({ onFinish }) {
           <div className="bubble">"I want to recreate this scene. Pass me the right camera!"</div>
         </div>
 
-        {/* Col 2 — draggable camera options */}
+        {/* Col 2 — draggable camera options — 4 per question */}
         <div className="cameras-col">
           <span className="col-eyebrow">Drag to Bob →</span>
-          {LESSONS.map(l => {
+          {q.choices.map(title => {
             const state = revealed
-              ? (l.title === q.correct ? 'correct' : l.title === picked ? 'wrong' : '')
-              : (dragging === l.title ? 'is-dragging' : '');
+              ? (title === q.correct ? 'correct' : title === picked ? 'wrong' : '')
+              : (dragging === title ? 'is-dragging' : '');
             return (
               <div
-                key={l.id}
+                key={title}
                 className={`cam-option ${state}`}
                 draggable={!revealed}
-                onDragStart={() => onDragStart(l.title)}
+                onDragStart={() => onDragStart(title)}
                 onDragEnd={onDragEnd}
+                onClick={() => !revealed && submit(title)}
               >
-                <img src={ICON_BY_TITLE[l.title]} alt={l.title} />
-                <span>{l.title}</span>
+                <img src={ICON_BY_TITLE[title]} alt={title} />
+                <span>{title}</span>
               </div>
             );
           })}
@@ -120,7 +137,6 @@ function QuizScreen({ onFinish }) {
           <FilmFrame src={q.video} hud={`SCENE ${qIdx + 1}`} />
           <p className="scene-line">{q.scene}</p>
         </div>
-
       </div>
     </main>
   );

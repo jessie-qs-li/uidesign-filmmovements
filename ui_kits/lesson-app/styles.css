@@ -60,7 +60,7 @@ button { font-family: inherit; }
   display: flex; align-items: flex-end; justify-content: center; overflow: hidden;
   box-shadow: var(--vl-shadow-lg);
 }
-.home .hero img { width: 90%; height: auto; filter: drop-shadow(0 18px 40px rgba(0,0,0,0.55)); }
+.home .hero img { width: 70%; height: auto; filter: drop-shadow(0 18px 40px rgba(0,0,0,0.55)); }
 .home .hero .hero-tag {
   position: absolute; top: 60px; left: 24px;
   font-family: var(--vl-font-mono); font-size: 11px; letter-spacing: 0.12em;
@@ -104,7 +104,7 @@ button { font-family: inherit; }
   font-family: var(--vl-font-display); font-style: italic; font-size: 20px;
   color: var(--vl-fg-2); margin: 0; max-width: 640px; line-height: 1.4;
 }
-.learn .stage .feels-like::before { content: "Feels like —"; color: var(--vl-highlight); font-style: normal; font-family: var(--vl-font-body); font-size: 12px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; display: block; margin-bottom: 6px; }
+.learn .stage .feels-like::before { content: "Pro Tip:"; color: var(--vl-highlight); font-style: normal; font-family: var(--vl-font-body); font-size: 12px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; display: block; margin-bottom: 6px; }
 
 .film-frame {
   position: relative; aspect-ratio: 16 / 9; background: #000;
@@ -273,7 +273,7 @@ button { font-family: inherit; }
   display: flex; align-items: flex-end; justify-content: center;
   box-shadow: var(--vl-shadow-lg);
 }
-.results .hero img { width: 80%; height: auto; }
+.results .hero img { width: 65%; height: auto; }
 .results .score-stamp {
   position: absolute; top: 22px; right: 22px;
   background: var(--vl-highlight); color: var(--vl-base);
