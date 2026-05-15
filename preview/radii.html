@@ -1,0 +1,19 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="_card.css">
+<style>
+  body { padding: 24px; }
+  .grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
+  .item { display: flex; flex-direction: column; gap: 8px; align-items: center; }
+  .box { width: 80px; height: 70px; background: var(--vl-bg-2); border: 1px solid var(--vl-border-2); }
+  .lbl { font-family: var(--vl-font-mono); font-size: 10px; color: var(--vl-fg-2); text-align: center; }
+  .px { font-family: var(--vl-font-mono); font-size: 10px; color: var(--vl-fg-3); }
+</style></head><body>
+<div class="grid">
+  <div class="item"><div class="box" style="border-radius:4px"></div><span class="lbl">xs</span><span class="px">4</span></div>
+  <div class="item"><div class="box" style="border-radius:8px"></div><span class="lbl">sm</span><span class="px">8</span></div>
+  <div class="item"><div class="box" style="border-radius:12px"></div><span class="lbl">md</span><span class="px">12</span></div>
+  <div class="item"><div class="box" style="border-radius:18px"></div><span class="lbl">lg</span><span class="px">18</span></div>
+  <div class="item"><div class="box" style="border-radius:28px"></div><span class="lbl">xl</span><span class="px">28</span></div>
+  <div class="item"><div class="box" style="border-radius:999px"></div><span class="lbl">pill</span><span class="px">∞</span></div>
+</div>
+</body></html>

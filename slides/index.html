@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>VibeLens — Lesson Deck</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<script src="deck-stage.js"></script>
+
+<deck-stage>
+
+  <!-- 01 TITLE -->
+  <section class="slide cover" data-screen-label="01 Title">
+    <div style="flex:1; display:grid; grid-template-columns: 1.1fr 0.9fr; gap: 80px; align-items: center;">
+      <div style="display:flex; flex-direction:column; gap: 36px;">
+        <span class="eyebrow">VibeLens · Film Literacy 01</span>
+        <h1>Learn to see<br/>what the <em style="color:var(--vl-text-dim)">director</em> sees.</h1>
+        <p style="max-width: 760px; font-size: 32px;">A self-paced lesson on camera movement for casual moviegoers — built around how shots <em>feel</em>, not how they're rigged.</p>
+        <div style="display:flex; gap: 18px; align-items: center; padding-top: 24px;">
+          <span class="pill"><span class="dot"></span>Lesson 00 · Welcome</span>
+          <small>Columbia · Instructional Design</small>
+        </div>
+      </div>
+      <div style="aspect-ratio: 1/1.05; background: radial-gradient(ellipse at 50% 60%, rgba(52,205,63,0.08), transparent 65%), var(--vl-bg-2); border-radius: 36px; border: 1px solid var(--vl-border-1); box-shadow: var(--vl-shadow-lg); display: flex; align-items: flex-end; justify-content: center; overflow: hidden; position: relative;">
+        <img src="../assets/laura.png" style="width: 78%; height: auto; filter: drop-shadow(0 18px 40px rgba(0,0,0,0.55));" />
+        <div style="position:absolute; bottom: 36px; right: 36px; left: 36px; font-family: var(--vl-font-display); font-style: italic; font-size: 26px; color: var(--vl-fg-2); text-align: right; line-height: 1.4;">"You already feel it.<br/>I'll just give you the words."</div>
+      </div>
+    </div>
+    <div class="footer"><span class="brand">VibeLens · vibelens.app</span><span class="num">01</span></div>
+  </section>
+
+  <!-- 02 SECTION DIVIDER -->
+  <section class="slide" data-screen-label="02 Section">
+    <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap: 28px;">
+      <span class="eyebrow">Part One — Camera Movement</span>
+      <h2 style="font-size: 200px; font-style: normal; font-weight: 700;">04 movements.</h2>
+      <h3 style="font-size: 64px; max-width: 1400px;">Pan, tilt, dolly, zoom, handheld — and the <em>feel</em> that lives inside each one.</h3>
+    </div>
+    <div class="footer"><span class="brand">VibeLens</span><span class="num">02</span></div>
+  </section>
+
+  <!-- 03 DEFINITION (Dolly Zoom) -->
+  <section class="slide" data-screen-label="03 Definition">
+    <span class="eyebrow">04 — Camera Movement</span>
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 80px; flex: 1; align-items: center;">
+      <div style="display:flex; flex-direction:column; gap: 32px;">
+        <h1 style="font-size: 156px;">Dolly Zoom</h1>
+        <h3 style="font-size: 48px;">
+          <span style="display:block; font-family: var(--vl-font-body); font-size: 22px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--vl-highlight); font-style: normal; margin-bottom: 14px;">Feels like —</span>
+          the room is shrinking around you.
+        </h3>
+        <p style="font-size: 32px; max-width: 720px;">A dolly zoom keeps the subject the same size while the background warps. Vertigo invented it; horror inherited it.</p>
+      </div>
+      <div class="film-still" style="aspect-ratio: 16/9;">
+        <video src="../assets/videos/dollyzoom-video.mp4" autoplay muted loop playsinline></video>
+        <div class="ref">Ex. Jaws, 1975 — 0:54</div>
+      </div>
+    </div>
+    <div class="footer"><span class="brand">VibeLens · 04 / 04</span><span class="num">03</span></div>
+  </section>
+
+  <!-- 04 COMPARISON -->
+  <section class="slide" data-screen-label="04 Comparison">
+    <span class="eyebrow">Compare — Static vs. Handheld</span>
+    <h2 style="margin-bottom: 56px;">Same scene. Two cameras. Different worlds.</h2>
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 56px; flex: 1;">
+      <div style="display:flex; flex-direction:column; gap: 22px;">
+        <div class="film-still" style="flex:1;">
+          <video src="../assets/videos/static-video.mp4" autoplay muted loop playsinline></video>
+        </div>
+        <div style="display:flex; gap:18px; align-items:baseline;">
+          <span class="tag-correct">Static</span>
+          <h3 style="font-size: 38px; font-style: italic;">the world stops, you're forced to listen.</h3>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap: 22px;">
+        <div class="film-still" style="flex:1;">
+          <video src="../assets/videos/handheld-video.mp4" autoplay muted loop playsinline></video>
+        </div>
+        <div style="display:flex; gap:18px; align-items:baseline;">
+          <span class="tag-correct">Handheld</span>
+          <h3 style="font-size: 38px; font-style: italic;">you're running with them — every step, every breath.</h3>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><span class="brand">VibeLens</span><span class="num">04</span></div>
+  </section>
+
+  <!-- 05 BIG QUOTE -->
+  <section class="slide" data-screen-label="05 Quote">
+    <div style="flex:1; display:flex; flex-direction:column; justify-content:center; max-width: 1500px;">
+      <span style="font-family: var(--vl-font-display); font-style: italic; font-size: 240px; color: var(--vl-highlight); line-height: 0.7;">"</span>
+      <h2 style="font-size: 84px; font-style: italic; line-height: 1.15;">You already feel what the camera is doing. We just give you the words for it.</h2>
+      <p style="margin-top: 40px; font-family: var(--vl-font-body); font-style: normal; font-size: 26px; color: var(--vl-fg-3); letter-spacing: 0.12em; text-transform: uppercase;">— VibeLens, design principle 01</p>
+    </div>
+    <div class="footer"><span class="brand">VibeLens</span><span class="num">05</span></div>
+  </section>
+
+  <!-- 06 QUIZ -->
+  <section class="slide" data-screen-label="06 Quiz">
+    <span class="eyebrow">Quiz · Question 02 of 03</span>
+    <h2 style="margin-top: 12px; max-width: 1400px;">Help Bob make a movie. Pick the camera that matches the scene.</h2>
+    <div style="display:grid; grid-template-columns: 380px 1fr 460px; gap: 56px; flex: 1; align-items:center; margin-top: 40px;">
+      <div style="display:flex; flex-direction:column; align-items:center; gap: 24px;">
+        <img src="../assets/bob-smirk.png" style="height: 460px; width: auto;" />
+        <div style="background: var(--vl-bg-2); border: 1px solid var(--vl-border-1); border-radius: 22px; padding: 22px 26px; font-family: var(--vl-font-display); font-style: italic; font-size: 24px; color: var(--vl-fg-2); line-height: 1.45; max-width: 340px; text-align: center;">"I want to recreate this scene. Pass me the right camera!"</div>
+      </div>
+      <div class="film-still" style="aspect-ratio: 16/9;">
+        <video src="../assets/videos/handheld-video.mp4" autoplay muted loop playsinline></video>
+        <div class="ref">Scene 02</div>
+      </div>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 18px; background: var(--vl-bg-2); border: 1px solid var(--vl-border-1); border-radius: 22px; padding: 22px;">
+        <div style="background: var(--vl-bg-3); border: 2px solid var(--vl-border-1); border-radius: 18px; padding: 20px 10px 16px; display:flex;flex-direction:column;align-items:center;gap:10px;">
+          <img src="../assets/cam-tripod.png" style="height: 100px; filter: brightness(2.2) contrast(0.8);" />
+          <span style="font-weight:700; font-size:22px;">Static</span>
+        </div>
+        <div style="background: rgba(228,34,23,0.10); border: 2px solid var(--vl-accent); box-shadow: var(--vl-glow-accent); border-radius: 18px; padding: 20px 10px 16px; display:flex;flex-direction:column;align-items:center;gap:10px;">
+          <img src="../assets/cam-handheld.png" style="height: 100px; filter: brightness(2.2) contrast(0.8);" />
+          <span style="font-weight:700; font-size:22px;">Handheld</span>
+        </div>
+        <div style="background: var(--vl-bg-3); border: 2px solid var(--vl-border-1); border-radius: 18px; padding: 20px 10px 16px; display:flex;flex-direction:column;align-items:center;gap:10px;">
+          <img src="../assets/cam-tracking.png" style="height: 100px; filter: brightness(2.2) contrast(0.8);" />
+          <span style="font-weight:700; font-size:22px;">Tracking</span>
+        </div>
+        <div style="background: var(--vl-bg-3); border: 2px solid var(--vl-border-1); border-radius: 18px; padding: 20px 10px 16px; display:flex;flex-direction:column;align-items:center;gap:10px;">
+          <img src="../assets/cam-dolly-zoom.png" style="height: 100px; filter: brightness(2.2) contrast(0.8);" />
+          <span style="font-weight:700; font-size:22px;">Dolly Zoom</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><span class="brand">VibeLens · Quiz</span><span class="num">06</span></div>
+  </section>
+
+  <!-- 07 TRANSITION -->
+  <section class="slide" data-screen-label="07 Transition">
+    <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap: 56px;">
+      <div style="width: 240px; height: 240px; border-radius: 50%; background: var(--vl-highlight); display:flex; align-items:center; justify-content:center; box-shadow: 0 0 0 24px rgba(169,237,61,0.18);">
+        <span style="font-family: var(--vl-font-display); font-size: 200px; color: var(--vl-base); line-height: 1;">✓</span>
+      </div>
+      <h2 style="font-size: 100px; text-align: center;">Nicely done.</h2>
+      <h3 style="font-size: 44px; text-align: center; max-width: 1100px;">You named three shots. Time for the final round.</h3>
+    </div>
+    <div class="footer"><span class="brand">VibeLens</span><span class="num">07</span></div>
+  </section>
+
+  <!-- 08 FINAL SCORE -->
+  <section class="slide" data-screen-label="08 Final Score">
+    <span class="eyebrow">Final · Results</span>
+    <div style="display:grid; grid-template-columns: 0.9fr 1.1fr; gap: 80px; flex: 1; align-items: center;">
+      <div style="aspect-ratio: 4/5; background: var(--vl-bg-2); border: 1px solid var(--vl-border-1); border-radius: 36px; box-shadow: var(--vl-shadow-lg); display: flex; align-items: flex-end; justify-content: center; overflow: hidden; position: relative;">
+        <div style="position:absolute; top: 32px; right: 32px; background: var(--vl-highlight); color: var(--vl-base); font-family: var(--vl-font-display); font-weight: 700; border-radius: 999px; padding: 14px 32px; font-size: 28px;">3 / 3</div>
+        <img src="../assets/laura.png" style="width: 78%; height: auto;" />
+      </div>
+      <div style="display:flex; flex-direction:column; gap: 36px;">
+        <h1 style="font-size: 144px;">You see it now.</h1>
+        <p style="font-family: var(--vl-font-display); font-size: 56px; font-style: italic; color: var(--vl-fg-2); margin: 0;">You named <strong style="color: var(--vl-highlight); font-weight:700;">three</strong> of three shots correctly.</p>
+        <div style="display:flex; flex-direction:column; gap: 12px; padding: 22px 26px; background: var(--vl-bg-2); border: 1px solid var(--vl-border-1); border-radius: 22px;">
+          <div style="display:grid; grid-template-columns: 36px 1fr auto; gap: 18px; align-items: center; font-size: 24px;">
+            <span style="color: var(--vl-highlight); font-weight:700; font-size: 28px;">✓</span>
+            <span><strong>Q1.</strong> Static</span>
+            <span style="font-family: var(--vl-font-mono); font-size: 16px; color: var(--vl-fg-3); letter-spacing: 0.08em;">STATIC</span>
+          </div>
+          <div style="display:grid; grid-template-columns: 36px 1fr auto; gap: 18px; align-items: center; font-size: 24px;">
+            <span style="color: var(--vl-highlight); font-weight:700; font-size: 28px;">✓</span>
+            <span><strong>Q2.</strong> Handheld</span>
+            <span style="font-family: var(--vl-font-mono); font-size: 16px; color: var(--vl-fg-3); letter-spacing: 0.08em;">HANDHELD</span>
+          </div>
+          <div style="display:grid; grid-template-columns: 36px 1fr auto; gap: 18px; align-items: center; font-size: 24px;">
+            <span style="color: var(--vl-highlight); font-weight:700; font-size: 28px;">✓</span>
+            <span><strong>Q3.</strong> Tracking</span>
+            <span style="font-family: var(--vl-font-mono); font-size: 16px; color: var(--vl-fg-3); letter-spacing: 0.08em;">TRACKING</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><span class="brand">VibeLens · Quiz Complete</span><span class="num">08</span></div>
+  </section>
+
+</deck-stage>
+</body>
+</html>

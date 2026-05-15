@@ -1,0 +1,62 @@
+/* Slide deck shared styles — VibeLens */
+@import url('../colors_and_type.css');
+
+html, body { margin: 0; padding: 0; }
+body { background: var(--vl-bg-1); color: var(--vl-fg-1); }
+
+/* deck-stage children must size to 1920×1080 */
+section.slide {
+  position: relative; box-sizing: border-box;
+  width: 1920px; height: 1080px; overflow: hidden;
+  display: flex; flex-direction: column;
+  padding: 80px 96px;
+  background: var(--vl-bg-1);
+}
+
+.slide .eyebrow {
+  font-family: var(--vl-font-body);
+  font-size: 22px; font-weight: 700; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--vl-fg-3);
+  margin-bottom: 24px;
+}
+.slide h1 { font-family: var(--vl-font-display); font-size: 144px; line-height: 0.96; font-weight: 700; margin: 0; letter-spacing: -0.015em; }
+.slide h2 { font-family: var(--vl-font-display); font-style: italic; font-size: 92px; line-height: 1.04; font-weight: 700; margin: 0; }
+.slide h3 { font-family: var(--vl-font-display); font-style: italic; font-size: 44px; line-height: 1.2; font-weight: 400; color: var(--vl-fg-2); margin: 0; }
+.slide p  { font-family: var(--vl-font-body); font-size: 30px; line-height: 1.45; color: var(--vl-fg-2); margin: 0; }
+.slide small { font-family: var(--vl-font-body); font-size: 22px; font-style: italic; color: var(--vl-fg-3); }
+
+.slide .footer {
+  position: absolute; left: 96px; right: 96px; bottom: 56px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--vl-font-mono); font-size: 18px; color: var(--vl-fg-3);
+  letter-spacing: 0.08em; text-transform: uppercase;
+}
+.slide .footer .brand { color: var(--vl-fg-2); }
+.slide .footer .num { color: var(--vl-fg-2); }
+
+.slide.cover { padding: 96px 110px; }
+
+.pill {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 10px 22px; border-radius: 999px;
+  background: var(--vl-bg-2); border: 1px solid var(--vl-border-2);
+  font-family: var(--vl-font-body); font-size: 22px; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--vl-fg-1);
+}
+.pill .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--vl-accent); }
+
+.tag-correct { background: var(--vl-highlight); color: var(--vl-base); padding: 8px 18px; border-radius: 999px; font-weight: 700; font-size: 22px; letter-spacing: 0.08em; text-transform: uppercase; }
+.tag-error   { background: var(--vl-accent);    color: var(--vl-text); padding: 8px 18px; border-radius: 999px; font-weight: 700; font-size: 22px; letter-spacing: 0.08em; text-transform: uppercase; }
+
+.film-still {
+  position: relative; border-radius: 28px; overflow: hidden;
+  border: 1px solid var(--vl-border-1); box-shadow: var(--vl-shadow-lg);
+  background: #000;
+}
+.film-still video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.film-still .ref {
+  position: absolute; bottom: 24px; right: 24px;
+  background: rgba(8,25,16,0.7); backdrop-filter: blur(12px);
+  font-style: italic; font-size: 22px; color: var(--vl-text-dim);
+  padding: 8px 16px; border-radius: 12px;
+}

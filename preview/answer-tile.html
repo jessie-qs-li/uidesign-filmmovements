@@ -1,0 +1,19 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="_card.css">
+<style>
+  body { padding: 22px 24px; }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .tile { background: var(--vl-bg-2); border: 2px solid var(--vl-border-1); border-radius: 14px; padding: 14px 8px 12px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .tile img { height: 56px; width: auto; filter: brightness(2.2) contrast(0.8); }
+  .tile .lbl { font-family: var(--vl-font-body); font-weight:700; font-size: 12px; letter-spacing: 0.04em; }
+  .tile.selected { border-color: var(--vl-accent); background: rgba(228,34,23,0.08); }
+  .tile.correct { border-color: var(--vl-highlight); box-shadow: var(--vl-glow-correct); background: rgba(169,237,61,0.06); }
+  .state { font-family: var(--vl-font-mono); font-size: 9px; color: var(--vl-fg-3); margin-top: 4px; letter-spacing: 0.08em; text-transform: uppercase; }
+</style></head><body>
+<div class="grid">
+  <div class="tile"><img src="../assets/cam-tripod.png"><span class="lbl">Static</span><span class="state">resting</span></div>
+  <div class="tile" style="border-color:var(--vl-fg-1)"><img src="../assets/cam-handheld.png"><span class="lbl">Handheld</span><span class="state">hover</span></div>
+  <div class="tile selected"><img src="../assets/cam-tracking.png"><span class="lbl">Tracking</span><span class="state">selected</span></div>
+  <div class="tile correct"><img src="../assets/cam-dolly-zoom.png"><span class="lbl">Dolly Zoom</span><span class="state">correct</span></div>
+</div>
+</body></html>

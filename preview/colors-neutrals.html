@@ -1,0 +1,17 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="_card.css">
+<style>
+  .swatches { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .sw { display: flex; flex-direction: column; gap: 8px; }
+  .chip { height: 88px; border-radius: 12px; border: 1px solid var(--vl-border-1); }
+  .meta { display: flex; flex-direction: column; gap: 2px; }
+  .meta .name { font-family: var(--vl-font-display); font-style: italic; font-size: 14px; color: var(--vl-fg-1); }
+  .meta .hex { font-family: var(--vl-font-mono); font-size: 11px; color: var(--vl-fg-3); letter-spacing: 0.04em; }
+</style></head><body>
+<div class="swatches">
+  <div class="sw"><div class="chip" style="background:#081910"></div><div class="meta"><span class="name">Black Bean</span><span class="hex">#081910 · BASE</span></div></div>
+  <div class="sw"><div class="chip" style="background:#142E1E"></div><div class="meta"><span class="name">Forest Panel</span><span class="hex">#142E1E · DARK GREY</span></div></div>
+  <div class="sw"><div class="chip" style="background:#4A6B54"></div><div class="meta"><span class="name">Muted Forest</span><span class="hex">#4A6B54 · LIGHT GREY</span></div></div>
+  <div class="sw"><div class="chip" style="background:#F2F2EE"></div><div class="meta"><span class="name">Near-White</span><span class="hex">#F2F2EE · WHITE</span></div></div>
+</div>
+</body></html>

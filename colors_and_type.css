@@ -1,0 +1,249 @@
+/* ============================================================
+   VibeLens Design System — Colors & Type
+   "Learn to see what the director sees."
+   ============================================================
+   Source of truth: HW11_Graphic_Design.pptx (Columbia Instructional
+   Design — Film Literacy for Casual Moviegoers).
+   The dark Black Bean palette + Georgia/Calibri is the higher-
+   fidelity direction. The blue lo-fi prototype palette ships as
+   the alternate "Sketchbook" theme below for character / TV-frame
+   contexts that already use those illustrations.
+   ============================================================ */
+
+/* ---------- 1. Webfonts ---------- */
+/* Display: Instrument Serif — modern high-contrast editorial serif
+   (Criterion-booklet / indie-poster vibe).
+   Body:    Geist — modern grotesque from Vercel, slightly technical
+            with strong character. Replaces the original Calibri/
+            Carlito spec for a more contemporary feel. ⚠ Substitution
+            flagged in README → "Iconography & Type Substitutions".
+   Mono:    Geist Mono. */
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap');
+
+/* ============================================================
+   2. PRIMARY THEME — BLACK BEAN  (default · dark)
+   ============================================================ */
+:root {
+  /* ---- Brand palette (PPTX) ---- */
+  --vl-base:        #07111E;  /* Midnight Navy — page bg, nav rail */
+  --vl-accent:      #E42217;  /* Lava Red — CTAs, errors, selected */
+  --vl-highlight:   #5DD8FF;  /* Electric Cyan — correct, progress, hover glow */
+  --vl-secondary:   #4A8CFF;  /* Screen Blue — icon fills, active nav */
+  --vl-panel:       #0C1C30;  /* Deep Navy Panel — cards, modals */
+  --vl-panel-2:     #112438;  /* one step lighter for nested surfaces */
+  --vl-muted:       #3A5470;  /* Slate Blue — captions, hints, counters */
+  --vl-text:        #F2F2EE;  /* Near-White — headings, body */
+  --vl-text-dim:    #C9CCC2;  /* derived — softer body */
+
+  /* ---- Functional aliases (foreground) ---- */
+  --vl-fg-1: var(--vl-text);       /* primary text */
+  --vl-fg-2: var(--vl-text-dim);   /* secondary text */
+  --vl-fg-3: var(--vl-muted);      /* tertiary / hints */
+  --vl-fg-accent: var(--vl-accent);
+  --vl-fg-success: var(--vl-highlight);
+
+  /* ---- Functional aliases (background / surface) ---- */
+  --vl-bg-1: var(--vl-base);       /* page */
+  --vl-bg-2: var(--vl-panel);      /* card / panel */
+  --vl-bg-3: var(--vl-panel-2);    /* nested surface */
+  --vl-bg-accent: var(--vl-accent);
+  --vl-bg-success: var(--vl-highlight);
+
+  /* ---- Borders ---- */
+  --vl-border-1: rgba(242, 242, 238, 0.10);   /* hairline on panels */
+  --vl-border-2: rgba(242, 242, 238, 0.22);   /* defined edge */
+  --vl-border-strong: var(--vl-muted);
+
+  /* ---- Elevation ---- */
+  --vl-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --vl-shadow-md: 0 4px 14px rgba(0, 0, 0, 0.45);
+  --vl-shadow-lg: 0 18px 40px rgba(0, 0, 0, 0.55);
+  --vl-glow-correct: 0 0 0 3px rgba(93, 216, 255, 0.35);
+  --vl-glow-accent:  0 0 0 3px rgba(228, 34, 23, 0.30);
+
+  /* ---- Radii (soft, slightly hand-drawn feel) ---- */
+  --vl-radius-xs: 4px;
+  --vl-radius-sm: 8px;
+  --vl-radius-md: 12px;
+  --vl-radius-lg: 18px;
+  --vl-radius-xl: 28px;
+  --vl-radius-pill: 999px;
+
+  /* ---- Spacing scale (4-pt base) ---- */
+  --vl-space-1: 4px;
+  --vl-space-2: 8px;
+  --vl-space-3: 12px;
+  --vl-space-4: 16px;
+  --vl-space-5: 24px;
+  --vl-space-6: 32px;
+  --vl-space-7: 48px;
+  --vl-space-8: 64px;
+
+  /* ---- Type families ---- */
+  /* Display: Instrument Serif — modern high-contrast editorial serif with
+     a slightly quirky italic. Reads as Criterion-booklet / indie film
+     poster. Loaded from Google Fonts in colors_and_type.css. */
+  --vl-font-display: 'Instrument Serif', Georgia, 'Iowan Old Style', serif;
+  --vl-font-body:    'Geist', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --vl-font-mono:    'Geist Mono', 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* ---- Type scale (PPTX-derived) ---- */
+  --vl-fs-h1: 36px;   /* technique name, screen H1 */
+  --vl-fs-h2: 24px;   /* hero title */
+  --vl-fs-h3: 16px;   /* sub-headings, quiz labels */
+  --vl-fs-body: 14px; /* definitions, body */
+  --vl-fs-label: 13px;/* quiz prompts, buttons */
+  --vl-fs-caption: 11px; /* film refs, timestamps */
+
+  --vl-lh-tight: 1.15;
+  --vl-lh-snug:  1.35;
+  --vl-lh-body:  1.55;
+
+  /* ---- Motion ---- */
+  --vl-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --vl-dur-fast: 120ms;
+  --vl-dur-base: 200ms;
+  --vl-dur-slow: 380ms;
+}
+
+/* ============================================================
+   3. SEMANTIC ELEMENT STYLES
+   These let you write plain HTML and get the right look.
+   ============================================================ */
+body {
+  background: var(--vl-bg-1);
+  color: var(--vl-fg-1);
+  font-family: var(--vl-font-body);
+  font-size: var(--vl-fs-body);
+  line-height: var(--vl-lh-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, .vl-h1 {
+  font-family: var(--vl-font-display);
+  font-size: var(--vl-fs-h1);
+  font-weight: 700;
+  line-height: var(--vl-lh-tight);
+  letter-spacing: -0.005em;
+  color: var(--vl-fg-1);
+}
+
+h2, .vl-h2 {
+  font-family: var(--vl-font-display);
+  font-size: var(--vl-fs-h2);
+  font-weight: 700;
+  font-style: italic;
+  line-height: var(--vl-lh-snug);
+  color: var(--vl-fg-1);
+}
+
+h3, .vl-h3 {
+  font-family: var(--vl-font-display);
+  font-size: var(--vl-fs-h3);
+  font-weight: 400;
+  font-style: italic;
+  line-height: var(--vl-lh-snug);
+  color: var(--vl-fg-2);
+}
+
+p, .vl-body {
+  font-family: var(--vl-font-body);
+  font-size: var(--vl-fs-body);
+  font-weight: 400;
+  line-height: var(--vl-lh-body);
+  color: var(--vl-fg-1);
+}
+
+label, .vl-label {
+  font-family: var(--vl-font-body);
+  font-size: var(--vl-fs-label);
+  font-weight: 700;
+  line-height: var(--vl-lh-snug);
+  color: var(--vl-fg-1);
+}
+
+small, .vl-caption {
+  font-family: var(--vl-font-body);
+  font-size: var(--vl-fs-caption);
+  font-style: italic;
+  color: var(--vl-fg-3);
+}
+
+code, .vl-mono {
+  font-family: var(--vl-font-mono);
+  font-size: 0.92em;
+  background: var(--vl-bg-3);
+  padding: 0.1em 0.35em;
+  border-radius: var(--vl-radius-xs);
+}
+
+/* All-caps eyebrow — shown above many H1s in the system */
+.vl-eyebrow {
+  font-family: var(--vl-font-body);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--vl-fg-3);
+}
+
+/* ============================================================
+   5. PRIMITIVE COMPONENTS (cosmetic — drop-in classes)
+   ============================================================ */
+.vl-card {
+  background: var(--vl-bg-2);
+  border: 1px solid var(--vl-border-1);
+  border-radius: var(--vl-radius-lg);
+  box-shadow: var(--vl-shadow-md);
+  padding: var(--vl-space-5);
+}
+
+.vl-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--vl-space-2);
+  font-family: var(--vl-font-body);
+  font-size: var(--vl-fs-label);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 14px 28px;
+  border-radius: var(--vl-radius-pill);
+  border: 0;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform var(--vl-dur-fast) var(--vl-ease),
+              background var(--vl-dur-base) var(--vl-ease),
+              box-shadow var(--vl-dur-base) var(--vl-ease);
+}
+.vl-btn--primary { background: var(--vl-accent); color: var(--vl-text); }
+.vl-btn--primary:hover { background: #ff3a2d; box-shadow: var(--vl-glow-accent); }
+.vl-btn--primary:active { transform: translateY(1px) scale(0.98); }
+
+.vl-btn--ghost {
+  background: transparent;
+  color: var(--vl-fg-1);
+  border: 1px solid var(--vl-border-2);
+}
+.vl-btn--ghost:hover { border-color: var(--vl-fg-1); background: rgba(242,242,238,0.04); }
+
+.vl-btn--correct { background: var(--vl-highlight); color: var(--vl-base); }
+.vl-btn--correct:hover { box-shadow: var(--vl-glow-correct); }
+
+.vl-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 10px;
+  font-size: var(--vl-fs-caption);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: var(--vl-radius-pill);
+  background: var(--vl-bg-3);
+  color: var(--vl-fg-2);
+  border: 1px solid var(--vl-border-1);
+}
+
+/* Selection */
+::selection { background: var(--vl-highlight); color: var(--vl-base); }

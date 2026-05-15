@@ -1,0 +1,30 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="_card.css">
+<style>
+  body { padding: 22px 24px; }
+  .stack { display: flex; flex-direction: column; gap: 12px; }
+  label { display:flex; flex-direction:column; gap:6px; font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color: var(--vl-fg-3); }
+  input, textarea {
+    background: var(--vl-bg-2); border: 1px solid var(--vl-border-2);
+    border-radius: 10px; padding: 12px 14px;
+    color: var(--vl-fg-1); font-size: 14px; font-family: var(--vl-font-body);
+    outline: none; transition: border-color var(--vl-dur-base), box-shadow var(--vl-dur-base);
+  }
+  input:focus { border-color: var(--vl-highlight); box-shadow: var(--vl-glow-correct); }
+  .row { display:grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .err { border-color: var(--vl-accent) !important; box-shadow: var(--vl-glow-accent); }
+  .err-msg { font-family: var(--vl-font-body); font-size: 11px; font-style: italic; color: var(--vl-accent); letter-spacing: 0; text-transform: none; font-weight: 400; margin-top: 4px; }
+</style></head><body>
+<div class="stack">
+  <div class="row">
+    <label>Resting<input value="The Bourne Ultimatum"></label>
+    <label>Focused<input value="Goodfellas, 1990" autofocus></label>
+  </div>
+  <div class="row">
+    <label>Error<input class="err" value="Vortigo">
+      <span class="err-msg">No film by that name. Did you mean Vertigo?</span>
+    </label>
+    <label>Disabled<input value="Locked" disabled style="opacity:0.5"></label>
+  </div>
+</div>
+</body></html>

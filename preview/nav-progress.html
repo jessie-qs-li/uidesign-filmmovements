@@ -1,0 +1,28 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="_card.css">
+<style>
+  body { padding: 24px; display: grid; grid-template-columns: 200px 1fr; gap: 22px; }
+  .rail { display:flex; flex-direction:column; gap: 6px; background: var(--vl-bg-2); border: 1px solid var(--vl-border-1); border-radius: 14px; padding: 12px; }
+  .item { display:flex; align-items:center; gap:10px; padding: 10px 12px; border-radius: 10px; font-size: 13px; font-weight: 700; color: var(--vl-fg-2); }
+  .item.active { background: var(--vl-accent); color: var(--vl-text); }
+  .item.done { color: var(--vl-fg-3); }
+  .dot { width:8px; height:8px; border-radius:50%; background: var(--vl-muted); }
+  .item.active .dot { background: var(--vl-text); }
+  .item.done .dot { background: var(--vl-secondary); }
+  .progress-block { display:flex; flex-direction:column; gap: 14px; align-self:end; }
+  .meta { display:flex; justify-content:space-between; font-family: var(--vl-font-mono); font-size: 11px; color: var(--vl-fg-3); }
+  .track { height: 8px; background: var(--vl-bg-3); border-radius: 999px; overflow:hidden; }
+  .fill { height: 100%; width: 62%; background: var(--vl-highlight); border-radius: 999px; }
+</style></head><body>
+<div class="rail">
+  <div class="item done"><span class="dot"></span>Static</div>
+  <div class="item done"><span class="dot"></span>Handheld</div>
+  <div class="item active"><span class="dot"></span>Tracking</div>
+  <div class="item"><span class="dot"></span>Dolly Zoom</div>
+</div>
+<div class="progress-block">
+  <div class="meta"><span>LESSON 03 / 04</span><span>62%</span></div>
+  <div class="track"><div class="fill"></div></div>
+  <div class="meta"><span style="color:var(--vl-fg-2)">Tracking · Feels like you're walking with them</span></div>
+</div>
+</body></html>
